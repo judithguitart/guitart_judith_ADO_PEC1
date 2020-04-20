@@ -1,0 +1,80 @@
+"ONTOLOGY","ID","Description","GeneRatio","BgRatio","pvalue","p.adjust","qvalue","geneID","Count"
+"BP","GO:0009237","siderophore metabolic process","10/82","10/2754",3.14409632165651e-16,9.93534437643458e-14,8.50560794384973e-14,"entC/fur/ybdZ/entB/fes/entE/entA/entF/entH/entD",10
+"BP","GO:0009712","catechol-containing compound metabolic process","9/82","10/2754",1.1539694896732e-13,1.82327179368365e-11,1.56089557287374e-11,"entC/ybdZ/entB/fes/entE/entA/entF/entH/entD",9
+"BP","GO:0018958","phenol-containing compound metabolic process","9/82","11/2754",6.19491184222014e-13,4.89398035535391e-11,4.18971669329099e-11,"entC/ybdZ/entB/fes/entE/entA/entF/entH/entD",9
+"BP","GO:0019184","nonribosomal peptide biosynthetic process","9/82","11/2754",6.19491184222014e-13,4.89398035535391e-11,4.18971669329099e-11,"entC/fur/ybdZ/entB/entE/entA/entF/entH/entD",9
+"BP","GO:0006826","iron ion transport","11/82","20/2754",1.11616619135731e-12,7.05417032937823e-11,6.03904655113326e-11,"fepA/fecA/feoA/exbB/feoB/yoeA/fepB/fepG/fepD/fepE/cirA",11
+"BP","GO:0044550","secondary metabolite biosynthetic process","9/82","12/2754",2.41864632937092e-12,1.27382040013535e-10,1.09051246780408e-10,"entC/fur/ybdZ/entB/entE/entA/entF/entH/entD",9
+"BP","GO:0033212","iron assimilation","8/82","12/2754",1.97092095615956e-10,7.48161498703144e-09,6.40498018543331e-09,"fepA/fhuF/fecB/yoeA/fepG/fepD/cirA/fecC",8
+"BP","GO:0000041","transition metal ion transport","12/82","37/2754",2.17627725373058e-10,7.48161498703144e-09,6.40498018543331e-09,"fepA/fecA/feoA/exbB/feoB/yoeA/fepB/mntP/fepG/fepD/fepE/cirA",12
+"BP","GO:0015688","iron chelate transport","9/82","17/2754",2.36759967944033e-10,7.48161498703144e-09,6.40498018543331e-09,"fepA/exbB/yoeA/tonB/fepB/fepG/fepD/fepE/cirA",9
+"BP","GO:0015891","siderophore transport","9/82","17/2754",2.36759967944033e-10,7.48161498703144e-09,6.40498018543331e-09,"fepA/exbB/yoeA/tonB/fepB/fepG/fepD/fepE/cirA",9
+"BP","GO:0015682","ferric iron transport","8/82","13/2754",5.0016358369567e-10,1.31709743706526e-08,1.12756176324375e-08,"fepA/exbB/yoeA/fepB/fepG/fepD/fepE/cirA",8
+"BP","GO:0072512","trivalent inorganic cation transport","8/82","13/2754",5.0016358369567e-10,1.31709743706526e-08,1.12756176324375e-08,"fepA/exbB/yoeA/fepB/fepG/fepD/fepE/cirA",8
+"BP","GO:0006879","cellular iron ion homeostasis","9/82","21/2754",2.59807542939319e-09,5.8642273977732e-08,5.02034124326353e-08,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0055072","iron ion homeostasis","9/82","21/2754",2.59807542939319e-09,5.8642273977732e-08,5.02034124326353e-08,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0030001","metal ion transport","13/82","55/2754",2.91672000920194e-09,6.14455681938541e-08,5.26033012185893e-08,"fepA/fecA/feoA/exbB/feoB/yoeA/fepB/mntP/fepG/fepD/fepE/cirA/kdpA",13
+"BP","GO:0033214","iron assimilation by chelation and transport","7/82","11/2754",4.8138810973636e-09,8.94815545156998e-08,7.66047951716684e-08,"fepA/fecB/yoeA/fepG/fepD/cirA/fecC",7
+"BP","GO:0042930","enterobactin transport","7/82","11/2754",4.8138810973636e-09,8.94815545156998e-08,7.66047951716684e-08,"fepA/yoeA/fepB/fepG/fepD/fepE/cirA",7
+"BP","GO:0019748","secondary metabolic process","10/82","32/2754",1.19168728082245e-08,2.09207322633275e-07,1.79101538696707e-07,"entC/fur/ybdZ/entB/fes/entE/entA/entF/entH/entD",10
+"BP","GO:1901678","iron coordination entity transport","9/82","26/2754",2.4464387849555e-08,4.06881397918914e-07,3.4832951120973e-07,"fepA/exbB/yoeA/tonB/fepB/fepG/fepD/fepE/cirA",9
+"BP","GO:0046916","cellular transition metal ion homeostasis","9/82","27/2754",3.58171753571671e-08,5.65911370643241e-07,4.84474424567998e-07,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0055076","transition metal ion homeostasis","9/82","29/2754",7.29110291639103e-08,1.09713739122836e-06,9.39254861911025e-07,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0006875","cellular metal ion homeostasis","9/82","31/2754",1.39817365890612e-07,2.00828580097425e-06,1.71928531262619e-06,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0055065","metal ion homeostasis","9/82","34/2754",3.38228888891938e-07,4.64697082129794e-06,3.97825283502188e-06,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:1901617","organic hydroxy compound biosynthetic process","8/82","26/2754",4.429833651572e-07,5.83261430790313e-06,4.99327740550002e-06,"entC/ybdZ/entB/entE/entA/entF/entH/entD",8
+"BP","GO:0030003","cellular cation homeostasis","9/82","39/2754",1.21036214792333e-06,1.52989775497508e-05,1.30973925059493e-05,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0006873","cellular ion homeostasis","9/82","40/2754",1.52430472513421e-06,1.85261651208619e-05,1.58601746704248e-05,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0051181","cofactor transport","9/82","41/2754",1.90617758180974e-06,2.23093376241437e-05,1.90989332758325e-05,"fepA/exbB/yoeA/tonB/fepB/fepG/fepD/fepE/cirA",9
+"BP","GO:0019725","cellular homeostasis","10/82","54/2754",2.59377744128681e-06,2.9272631123094e-05,2.5060180541756e-05,"fepA/fhuF/ftnA/nrdH/fecB/yoeA/fepG/fepD/cirA/fecC",10
+"BP","GO:0055080","cation homeostasis","9/82","43/2754",2.92282105321141e-06,3.18486707867174e-05,2.72655176288687e-05,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0050801","ion homeostasis","9/82","44/2754",3.58627167161762e-06,3.5414432757224e-05,3.03181519607147e-05,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0055082","cellular chemical homeostasis","9/82","44/2754",3.58627167161762e-06,3.5414432757224e-05,3.03181519607147e-05,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0098771","inorganic ion homeostasis","9/82","44/2754",3.58627167161762e-06,3.5414432757224e-05,3.03181519607147e-05,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0015850","organic hydroxy compound transport","7/82","25/2754",4.99990384012946e-06,4.77017403176719e-05,4.08372660281202e-05,"fepA/yoeA/fepB/fepG/fepD/fepE/cirA",7
+"BP","GO:0042592","homeostatic process","10/82","58/2754",5.13246573038242e-06,4.77017403176719e-05,4.08372660281202e-05,"fepA/fhuF/ftnA/nrdH/fecB/yoeA/fepG/fepD/cirA/fecC",10
+"BP","GO:0048878","chemical homeostasis","9/82","48/2754",7.69877151946826e-06,6.95089085757706e-05,5.95062941504765e-05,"fepA/fhuF/ftnA/fecB/yoeA/fepG/fepD/cirA/fecC",9
+"BP","GO:0031163","metallo-sulfur cluster assembly","6/82","19/2754",1.15446627457614e-05,0.000101336484101684,8.67537522123009e-05,"sufC/sufB/sufD/sufA/sufS/sufE",6
+"BP","GO:0006812","cation transport","15/82","147/2754",1.79185395761506e-05,0.000153034013677394,0.000131011797185511,"fepA/fecA/feoA/exbB/feoB/yoeA/fepB/mntP/nuoM/fepG/fepD/fepE/cirA/livG/kdpA",15
+"BP","GO:1901615","organic hydroxy compound metabolic process","10/82","69/2754",2.56071650144381e-05,0.000212943793277959,0.000182300316030765,"entC/ybdZ/entB/fes/entE/entA/entF/entH/entD/glcD",10
+"BP","GO:0006811","ion transport","20/82","255/2754",3.27393408559927e-05,0.000265272607961377,0.000227098801619167,"fepA/fecA/feoA/exbB/feoB/yoeA/fepB/ugpB/mntP/nuoM/fepG/fepD/yfjV/nirC/ompF/fepE/cirA/yjhB/livG/kdpA",20
+"BP","GO:0065008","regulation of biological quality","13/82","123/2754",4.82191607184999e-05,0.000380931369676149,0.000326113797490907,"fepA/entC/exbB/fhuF/ftnA/exbD/nrdH/fecB/yoeA/fepG/fepD/cirA/fecC",13
+"BP","GO:0016226","iron-sulfur cluster assembly","5/82","18/2754",0.000130832584574993,0.00100836821282189,0.000863259929031402,"sufC/sufB/sufD/sufA/sufS",5
+"BP","GO:0043649","dicarboxylic acid catabolic process","4/82","11/2754",0.00020558313514859,0.00154676835016558,0.00132418209857613,"gudD/garK/garR/garL",4
+"BP","GO:0051186","cofactor metabolic process","16/82","207/2754",0.000280250316415513,0.00205951395319307,0.0017631415255517,"entC/fur/ybdZ/sufC/sufB/entB/sufD/fes/sufA/entE/entA/entF/sufS/entH/entD/tktB",16
+"BP","GO:0006820","anion transport","13/82","162/2754",0.000791293785141413,0.00568292809328833,0.00486513164548668,"fepA/exbB/yoeA/fepB/ugpB/fepG/fepD/yfjV/nirC/fepE/cirA/yjhB/livG",13
+"BP","GO:0042737","drug catabolic process","7/82","57/2754",0.00127202191221961,0.00893242053914212,0.00764700892258336,"preA/gudD/glcD/garK/garR/garL/nanA",7
+"BP","GO:0043043","peptide biosynthetic process","9/82","94/2754",0.00159759146702515,0.0109747587734771,0.00939544638502204,"entC/fur/ybdZ/entB/entE/entA/entF/entH/entD",9
+"BP","GO:0015711","organic anion transport","11/82","138/2754",0.00219085695481527,0.0147300169728005,0.0126103076682536,"fepA/exbB/yoeA/fepB/ugpB/fepG/fepD/fepE/cirA/yjhB/livG",11
+"BP","GO:0015766","disaccharide transport","3/82","11/2754",0.00353286966136885,0.0232580586040116,0.0199111294511358,"malE/malG/malF",3
+"BP","GO:0006518","peptide metabolic process","9/82","111/2754",0.0050239026240038,0.0323990454935755,0.0277366911787106,"entC/fur/ybdZ/entB/entE/entA/entF/entH/entD",9
+"BP","GO:0015772","oligosaccharide transport","3/82","14/2754",0.00730619288163115,0.0461751390119089,0.0395303488542991,"malE/malG/malF",3
+"CC","GO:0098796","membrane protein complex","16/65","176/2506",5.49651845363419e-06,0.000214364219691733,0.000109930369072684,"exbB/exbD/tonB/nuoM/yojI/fepG/fepD/malE/ompF/malG/livG/lamB/malF/fecC/kdpA/nuoG",16
+"CC","GO:0098797","plasma membrane protein complex","13/65","137/2506",3.11813498319825e-05,0.000608036321723659,0.000311813498319825,"exbB/exbD/tonB/nuoM/yojI/fepG/fepD/malE/malG/livG/malF/fecC/nuoG",13
+"CC","GO:0030313","cell envelope","16/65","249/2506",0.000410767714063652,0.00384416828348373,0.00197136835050448,"fepA/fecA/fhuA/fecB/fhuE/yoeA/tonB/fepB/spy/ydhX/ugpB/malE/yncE/ompF/cirA/lamB",16
+"CC","GO:0031975","envelope","16/65","249/2506",0.000410767714063652,0.00384416828348373,0.00197136835050448,"fepA/fecA/fhuA/fecB/fhuE/yoeA/tonB/fepB/spy/ydhX/ugpB/malE/yncE/ompF/cirA/lamB",16
+"CC","GO:1902495","transmembrane transporter complex","10/65","115/2506",0.000591410505151343,0.00384416828348373,0.00197136835050448,"yojI/fepG/fepD/malE/ompF/malG/livG/malF/fecC/kdpA",10
+"CC","GO:1990351","transporter complex","10/65","115/2506",0.000591410505151343,0.00384416828348373,0.00197136835050448,"yojI/fepG/fepD/malE/ompF/malG/livG/malF/fecC/kdpA",10
+"CC","GO:0032991","protein-containing complex","23/65","460/2506",0.000724341328438838,0.00403561597273067,0.00206954665268239,"fur/exbB/exbD/entF/tonB/entD/nrdE/nuoM/yojI/fepG/fepD/dnaJ/malE/ompF/nrdF/malG/livG/lamB/malF/nirD/fecC/kdpA/nuoG",23
+"CC","GO:0019867","outer membrane","9/65","106/2506",0.00135525880720879,0.00660688668514283,0.00338814701802197,"fepA/fecA/fhuA/fhuE/yoeA/ycgV/ompF/cirA/lamB",9
+"CC","GO:0098533","ATPase dependent transmembrane transport complex","9/65","108/2506",0.00154906135136506,0.00671259918924859,0.00344235855858902,"yojI/fepG/fepD/malE/malG/livG/malF/fecC/kdpA",9
+"CC","GO:1904949","ATPase complex","9/65","114/2506",0.00226840709653523,0.00884678767648739,0.00453681419307046,"yojI/fepG/fepD/malE/malG/livG/malF/fecC/kdpA",9
+"CC","GO:0009279","cell outer membrane","8/65","101/2506",0.0039548523142032,0.0128532700211604,0.00659142052367201,"fepA/fecA/fhuA/fhuE/yoeA/ompF/cirA/lamB",8
+"CC","GO:0044462","external encapsulating structure part","8/65","101/2506",0.0039548523142032,0.0128532700211604,0.00659142052367201,"fepA/fecA/fhuA/fhuE/yoeA/ompF/cirA/lamB",8
+"CC","GO:0030312","external encapsulating structure","8/65","104/2506",0.00473896398585441,0.0132013996748801,0.00676994855122059,"fepA/fecA/fhuA/fhuE/yoeA/ompF/cirA/lamB",8
+"CC","GO:0043190","ATP-binding cassette (ABC) transporter complex","8/65","104/2506",0.00473896398585441,0.0132013996748801,0.00676994855122059,"yojI/fepG/fepD/malE/malG/livG/malF/fecC",8
+"CC","GO:0031230","intrinsic component of cell outer membrane","4/65","30/2506",0.00680554835603121,0.0169679504790788,0.00870151306619424,"fepA/yoeA/cirA/lamB",4
+"CC","GO:1902494","catalytic complex","13/65","239/2506",0.00696121045295539,0.0169679504790788,0.00870151306619424,"nrdE/nuoM/yojI/fepG/fepD/malE/nrdF/malG/livG/malF/fecC/kdpA/nuoG",13
+"CC","GO:0055052","ATP-binding cassette (ABC) transporter complex, substrate-binding subunit-containing","4/65","35/2506",0.0118016509537105,0.0270743757173359,0.0138842952396595,"fepG/malE/livG/fecC",4
+"CC","GO:1990204","oxidoreductase complex","4/65","39/2506",0.0171598143362167,0.0371795977284694,0.0190664603735741,"nrdE/nuoM/nrdF/nuoG",4
+"MF","GO:0015343","siderophore transmembrane transporter activity","8/79","14/2743",8.65609595795382e-10,1.41094364114647e-07,1.17540671429057e-07,"fepA/fhuA/fhuE/yoeA/fepG/fepD/fepE/cirA",8
+"MF","GO:0051184","cofactor transmembrane transporter activity","8/79","24/2743",1.6784773404769e-07,1.36795903248868e-05,1.13959777327116e-05,"fepA/fhuA/fhuE/yoeA/fepG/fepD/fepE/cirA",8
+"MF","GO:0005215","transporter activity","25/79","412/2743",0.000120532865093781,0.00654895233676209,0.00545569810424481,"fepA/fecA/fhuA/feoB/fhuE/yoeA/mntP/yojI/fepG/fepD/yfjV/yagG/malE/nirC/ycgV/ompF/malG/fepE/cirA/yjhB/livG/lamB/malF/fecC/kdpA",25
+"MF","GO:0022857","transmembrane transporter activity","23/79","394/2743",0.000448707269083945,0.0167037644490723,0.0139153090986782,"fepA/fecA/fhuA/feoB/fhuE/yoeA/mntP/yojI/fepG/fepD/yfjV/nirC/ycgV/ompF/malG/fepE/cirA/yjhB/livG/lamB/malF/fecC/kdpA",23
+"MF","GO:0019904","protein domain specific binding","4/79","14/2743",0.00051238541254823,0.0167037644490723,0.0139153090986782,"fepA/fhuA/tonB/ompF",4
+"MF","GO:0015405","P-P-bond-hydrolysis-driven transmembrane transporter activity","7/79","55/2743",0.000837643745064817,0.0227559884075942,0.0189572005462038,"fepA/yojI/ompF/malG/cirA/malF/kdpA",7
+"MF","GO:0015399","primary active transmembrane transporter activity","7/79","61/2743",0.00156708854634943,0.0362188268137981,0.0301726100030994,"fepA/yojI/ompF/malG/cirA/malF/kdpA",7
+"MF","GO:0003954","NADH dehydrogenase activity","4/79","19/2743",0.00177761113196555,0.0362188268137981,0.0301726100030994,"preT/preA/nuoM/nuoG",4
+"MF","GO:0015318","inorganic molecular entity transmembrane transporter activity","12/79","172/2743",0.00318641197022846,0.0475932363887427,0.0396482240500342,"fepA/fecA/feoB/yoeA/mntP/yfjV/nirC/ompF/cirA/yjhB/livG/kdpA",12
+"MF","GO:0008320","protein transmembrane transporter activity","3/79","11/2743",0.0032118134986268,0.0475932363887427,0.0396482240500342,"fepA/ompF/cirA",3
+"MF","GO:1901618","organic hydroxy compound transmembrane transporter activity","3/79","11/2743",0.0032118134986268,0.0475932363887427,0.0396482240500342,"fepA/yoeA/cirA",3
