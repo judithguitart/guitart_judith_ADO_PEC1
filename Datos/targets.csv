@@ -1,0 +1,9 @@
+FileName;Group;Genotype;Treatment;ShortName
+GSM1341344_01_E_coli_2_;WT_ntCPR;WT;Not-treated;wt_nt.1
+GSM1341345_02_E_coli_2_;WT_ntCPR;WT;Not-treated;wt_nt.2
+GSM1341346_03_E_coli_2_;WT_CPR;WT;CPR;wt_cpr.1
+GSM1341347_04_E_coli_2_;WT_CPR;WT;CPR;wt_cpr.2
+GSM1341348_07_E_coli_2_;FUR_ntCPR;fur;Not-treated;fur_nt.1
+GSM1341349_08_E_coli_2_;FUR_ntCPR;fur;Not-treated;fur_nt.2
+GSM1341350_09_E_coli_2_;FUR_CPR;fur;CPR;fur_cpr.1
+GSM1341351_10_E_coli_2_;FUR_CPR;fur;CPR;fur_cpr.2
