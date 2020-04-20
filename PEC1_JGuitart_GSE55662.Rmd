@@ -1,0 +1,654 @@
+---
+title: "PEC1_analisisR"
+author: "Judith Guitart"
+date: "10/4/2020"
+output:
+  word_document: default
+  html_document: default
+---
+
+
+
+### A1. Identificación de las muestras y los grupos
+
+Se ha escogido el estudio GSE55662 y se han descargado los datos y guardado en una carpeta en la asignatura con el nombre de 'PEC1'. . 
+
+En este directorio vamos a crear carpetas para los análisis, los datos y los resultados. 
+
+```{r}
+dir.create("MicroArrayAnalisis")
+dir.create("Datos")
+dir.create("Resultados")
+```
+
+
+Guardamos los archivos .CEL descargados de la base de datos 'Gene Expression Omnibus' (GEO) en la nueva carpeta 'Datos'.
+
+A continuación, pasamos a crear y leer el archivo *'targets'*, que nos servirá para retener toda la información relevante para el análisis de los archivos .CEL individuales en un solo arhivo.
+
+```{r}
+targets.pec <- read.csv2("./Datos/targets.csv", header = TRUE, sep = ";")
+knitr::kable(targets.pec, booktabs = TRUE, caption = "Contenido del archivo targets usado para este análisis")
+```
+
+
+Finalmente, procedemos a leer los archivos .CEL con la función *list.celfiles* del paquete *oligo*:
+
+```{r}
+library(oligo)
+archivosCEL <- list.celfiles("./Datos", full.names = TRUE)
+```
+
+
+A continuación, guardamos el archivo 'tagets.csv' generado anteriormente en una nueva variable para asociar la información de los archivos .CEL al mismo. Utilizamos la función *read.AnnotatedDataFrame* del paquete *Biobase*. 
+
+```{r}
+library(Biobase)
+mis.targets <- read.AnnotatedDataFrame(file.path("./Datos", "targets.csv"), header = TRUE, row.names = 1, sep=";")
+rawData <- read.celfiles(archivosCEL, phenoData = mis.targets)
+```
+
+
+Así, obtenemos el *ExpressionSet* y podemos cambiar el nombre largo de los archivos .CEL por el nombre corto establecido en el archivo 'targets.csv':
+
+```{r}
+mis.targets@data$ShortName -> rownames(pData(rawData))
+colnames(rawData) <- rownames(pData(rawData))
+head(rawData)
+```
+
+
+Por lo tanto, de las 8 muestras, existen 4 grupos distintos con dos réplicas cada uno, en el siguiente orden: WT sin tratamiento, WT tratado con ciprofloxacina, -fur sin tratamiento, -fur tratado con ciprofloxacina. 
+
+
+
+
+
+### A2. Control de calidad de los datos crudos
+
+Una vez hemos cargado los datos crudos con el nombre 'rawData' podemos pasar a determinar la calidad de estos datos antes de normalizar los datos. 
+
+```{r}
+library(arrayQualityMetrics)
+```
+
+A continuación observamos el archivo *index.html* creado con un resumen del análisis:
+**(Afegir imatge index.html de la carpeta)**
+
+
+
+
+Observamos que todas las muestras han sido marcadas almenos alguna vez y la muestra 6 dos veces. 
+
+
+Podemos realizar este análisis también mediante un análisis de componentes principales. 
+
+```{r}
+library(ggplot2)
+library(ggrepel)
+plotPCA3 <- function (datos, labels, factor, title, scale, colores, size = 1.5, glineas = 0.25) {
+ data <- prcomp(t(datos),scale=scale)
+ dataDf <- data.frame(data$x)
+ Group <- factor
+ loads <- round(data$sdev^2/sum(data$sdev^2)*100,1)
+ p1 <- ggplot(dataDf,aes(x=PC1, y=PC2)) +
+   theme_classic() +
+   geom_hline(yintercept = 0, color = "gray70") +
+   geom_vline(xintercept = 0, color = "gray70") +
+   geom_point(aes(color = Group), alpha = 0.55, size = 3) +
+   coord_cartesian(xlim = c(min(data$x[,1])-5,max(data$x[,1])+5)) +
+   scale_fill_discrete(name = "Group")
+ p1 + geom_text_repel(aes(y = PC2 + 0.25, label = labels),segment.size = 0.25, size = size) + 
+   labs(x = c(paste("PC1",loads[1],"%")),y=c(paste("PC2",loads[2],"%"))) +  
+   ggtitle(paste("Análisis de componentes principales para:",title,sep=" "))+ 
+   theme(plot.title = element_text(hjust = 0.5)) +
+   scale_color_manual(values=colores)
+}
+```
+
+
+
+
+
+```{r}
+plotPCA3(exprs(rawData), labels = targets.pec$ShortName, factor = targets.pec$Group, 
+        title="Datos crudos", scale = FALSE, size = 3.5, 
+        colores = c("darkred", "salmon", "darkgreen", "springgreen2"))
+```
+
+
+Cada color pertenece a cada uno de los cuatro grupos del estudio. 
+
+Observamos que el análisis de componentes principales cuenta con un 85.3% del total de la variabilidad de las muestras. Seguramente, esta variabilidad es contribuida principalmente por la condición del tratamiento, ya que observamos tanto la cepa salvaje como la mutante no tratadas a la izquierda y las tratadas con el antibiótico a la derecha. 
+
+
+
+
+Podemos guardar este gráfico en el formato *.tiff*, creando una nueva carpeta en el directorio que vamos a nombrar *'Figuras'*:
+
+
+```{r}
+dir.create("Figuras")
+tiff("./Figuras/PCA_RawData.tiff", res = 200, width = 4.5, height = 4, units = 'in')
+plotPCA3(exprs(rawData), labels = targets.pec$ShortName, factor = targets.pec$Group, 
+        title="Raw data", scale = FALSE, size = 2, 
+        colores = c("darkred", "salmon", "darkgreen", "springgreen2"))
+dev.off()
+```
+
+
+
+También podemos visualizar la distribución de la intensidad de los *arrays* con diagramas de cajas:
+
+```{r}
+boxplot(rawData, cex.axis=0.7, las=2, which="all", col = c(rep("springgreen2", 2), rep("darkgreen", 2), rep("salmon", 2), rep("darkred", 2)), main = "Distribución de los valores de intensidad de los datos crudos", cex.main = 0.8)
+```
+Se observa una gran variabilidad en la intensidad de los arrays, lo que ya es esperable en los datos crudos. 
+
+
+
+**Opcional**: Exploración y visualización
+
+```{r}
+hist(rawData, cex.axis=0.7, las=2, which="all", col = c(rep("springgreen2", 2), rep("darkgreen", 2), rep("salmon", 2), rep("darkred", 2)), main = "Distribución de los valores de intensidad de los datos crudos", cex.main = 0.8)
+```
+
+Para observar si las muestras se agrupan por condiciones experimentales:
+
+*Función dendograma falta*
+
+
+
+
+
+
+### 3. Normalización
+
+
+Para hacer los arrays comparables entre ellos y así, reducir al máximo la variabilidad en las muestras que no es debida a razones biológicas, realizaremos un proceso de normalización. Refleja la expresión diferencial de los genes, que no es debida a efectos técnicos. Consiste de tres pasos: corrección del ruido de fondo o *background*, normalización y sumarización. 
+
+Usaremos el método Robust Multichip Analysis (RMA), (explicar una mica):
+
+```{r}
+eset_rma.pec <- rma(rawData)
+```
+
+Implica una normalización por cuantiles que fuerza la homogeneidad de los arrays. 
+
+
+
+### 4. Control de calidad de los datos normalizados
+
+Para saber como después de este proceso se observa la calidad de los datos, realizaremos un nuevo control de los mismos:
+
+```{r}
+arrayQualityMetrics(eset_rma.pec, outdir = file.path("./Resultados", "QCDir.Norm"), force = TRUE)
+```
+
+Ahora observamos que tan solo una de las muestras está marcada, lo que significa que los problemas potenciales seran pequeños y podemos continuar con el análisis de este array. 
+
+
+Realizamos también PCA de los datos normalizados:
+
+```{r}
+plotPCA3(exprs(eset_rma.pec), labels = targets.pec$ShortName, factor = targets.pec$Group, 
+        title="Datos normalizados", scale = FALSE, size = 3.5, 
+        colores = c("darkred", "salmon", "darkgreen", "springgreen"))
+```
+
+
+Seguimos viendo la separación de ambos grupos y ahora también la aglomeración de los dos grupos no tratados en un mismo componente. 
+
+Ahora cuenta con un 71.9% de la variabilidad total. Es importante destacar una de las muestras que se encuentra lejos de la otra réplica, lo que puede ser debido a algun outlier. 
+
+Ahora podemos también observar la distribución de las intensidades con los datos normalizados, que en este caso, las cajas del diagrama se espera que sean muy similares. 
+
+```{r}
+boxplot(eset_rma.pec, cex.axis=0.7, las=2,  which="all", 
+        col = c(rep("springgreen2", 2), rep("darkgreen", 2), rep("salmon", 2), rep("darkred", 2)),
+        main="Diagrama de cajas para la intensidad de los arrays: Datos normalizados", cex.main = 0.8)
+```
+
+Ahora podemos observar que las intensidades de los arrays son mucho más parecidas. 
+
+Para identificar y eliminar los efectos de los distintos lotes, realizaremos un Análisis de componente de variación combate y principal (PVCA):
+
+```{r}
+library(pvca)
+pData(eset_rma.pec) <- targets.pec
+pct_threshold <- 0.6
+batch.factors <- c("Genotype", "Treatment")
+pvcaObj <- pvcaBatchAssess(eset_rma.pec, batch.factors, pct_threshold)
+```
+
+
+```{r}
+bp <- barplot(pvcaObj$dat, xlab = "Efectos", ylab = "Variación de la proporción promedia ponderada", ylim = c(0,1.1), col=c("deepskyblue3"), las=2, main="Estimación PVCA", xlim = c(0,8), cex.main = 1.1, cex.lab = 0.9)
+axis(1, at = bp, labels = pvcaObj$label, cex.axis = 0.8, las=2)
+values = pvcaObj$dat
+new_values = round(values, 3)
+text(bp, pvcaObj$dat, labels = new_values, pos =3, cex = 0.9)
+```
+
+Este gráfico muestra que la mayor fuente de variación es la condición de tratamiento, lo que ya observamos previamente en los análisis de PCA. 
+
+
+
+
+### A5. Filtraje no específico 
+
+
+
+```{r}
+sds <- apply(exprs(eset_rma.pec), 1, sd)
+sds0 <- sort(sds)
+plot(1:length(sds0), sds0, main="Distribución de la variabilidad de todos los genes", sub="Linias verticales representan los percentiles 90 y 95%", xlab= "Índice de genes (del menos al más variable)", ylab="Desviación estándar", col ="deepskyblue4", cex.main = 1, cex.lab = 0.9)
+abline(v=length(sds)*c(0.9,0.95))
+```
+
+
+
+Filtraje de los genes menos variables, aquellos que pueden atribuirse a variabilidad aleatoria, que no se consideran diferencialmente expresados, lo que permite reducir el nombre de tests, incrementando así la potencia.
+
+Basándonos en un lindar de variabilidad podemos eliminar estos genes con la función *nsFilter* del paquete *genefitler*:
+Permite eliminar los genes que varían poco entre condiciones o que deseamos quitar por otras razones, con la función *nsFilter*.
+Escogemos el lindar 0.5 default.
+
+```{r}
+library(genefilter)
+BiocManager::install("ecoli2.db")
+BiocManager::install("AnnotationDbi")
+BiocManager::install("org.EcK12.eg.db")
+library(ecoli2.db)
+```
+
+```{r}
+annotation(eset_rma.pec) <- "ecoli2.db"
+filtered.pec <- nsFilter(eset_rma.pec, require.entrez = TRUE, remove.dupEntrez = TRUE, var.filter = TRUE, var.func = IQR, var.cutoff = 0.5, filterByQuantile = TRUE, feature.exclude = "^AFFX")
+print(filtered.pec$filter.log)
+```
+
+```{r}
+eset_filtered.pec <- filtered.pec$eset
+eset_filtered.pec
+```
+
+
+Después del filtraje observamos que nos quedamos con 2066 genes y que hemos guardado estos en la variable *eset_filtered.pec*.
+
+
+Procedemos a guardar los datos normalizados y filtrados:
+
+```{r}
+write.csv(exprs(eset_rma.pec), file="./Resultados/Datos.normalizados.csv")
+write.csv(exprs(eset_filtered.pec), file="./Resultados/Datos.normalizados.filtrados.csv")
+save(eset_rma.pec, eset_filtered.pec, file="./Resultados/Datos.normalizados.Rda")
+```
+
+
+
+
+### A6. Identificación de genes diferencialmente expresados
+
+
+Ahora podemos proceder a generar la matriz de diseño para seleccionar los genes diferencialmente expresados para compara la expresión génica entre grupos. Usaremos el modelo de Smyth del paquete *limma*, como se ha estudiado en los recursos de la asignatura. 
+
+**La matriz de diseño es una tabla que describe cada muestra a un grupo o condición experimental:**
+
+```{r}
+if(!exists("eset_filtered.pec")) load(file="./Resultados/Datos.normalizados.Rda")
+```
+
+```{r}
+library(limma)
+Matdesign <- model.matrix(~0+Group, pData(eset_filtered.pec))
+colnames(Matdesign) <- c("WT_ntCPR", "WT_CPR", "FUR_ntCPR", "FUR_CPR")
+print(Matdesign)
+```
+
+**La matriz de contrastes permite realizar comparaciones entre los parámetros del modelo.**
+
+(Preguntas de estudio)
+
+1. Efectos del tratamiento en la cepa salvaje.
+2. Efectos de la deleción del gen fur.
+3. Efectos del tratamiento entre la cepa salvaje y la cepa mutante. 
+
+```{r}
+Matcontrast <- makeContrasts(nt.WTvsFUR=FUR_ntCPR-WT_ntCPR, WT.ntvsCPR=WT_CPR-WT_ntCPR, FUR.ntvsCPR=FUR_CPR-FUR_ntCPR, levels = Matdesign)
+print(Matcontrast)
+```
+
+
+**Estimación del modelo y selección de genes:**
+
+Ahora podemos proceder a estimar el modelo y los contrastes y generar los test de significancia para determinar si los genes estan diferencialmente expresados o no. 
+
+El paquete *limma* utiliza los modelos de Bayes empíricos determinados como fold-change, aunque para controlar el porcentaje de falsos positivos, podemos ajustar los p-valores utilizando el método de Benjamini y Hochberg. 
+
+```{r}
+library(limma)
+fit.pec <- lmFit(eset_filtered.pec, Matdesign)
+fit.main.pec <- contrasts.fit(fit.pec, Matcontrast)
+fit.main.pec <- eBayes(fit.main.pec)
+class(fit.main.pec)
+```
+
+Ahora ya podemos obtener las listas de los genes diferencialmente expresados con la función *topTable* ordenados por el p-value. 
+
+
+```{r}
+tt_nt.WTvsFUR <- topTable(fit.main.pec, number=nrow(fit.main.pec), coef = "nt.WTvsFUR", adjust = "fdr")
+head(tt_nt.WTvsFUR)
+library(xlsx)
+write.xlsx(tt_nt.WTvsFUR, file = "tt_nt.WTvsFUR.xlsx")
+```
+
+
+```{r}
+tt_WT.ntvsCPR <- topTable(fit.main.pec, number=nrow(fit.main.pec), coef = "WT.ntvsCPR", adjust = "fdr")
+head(tt_WT.ntvsCPR)
+write.xlsx(tt_WT.ntvsCPR, file = "tt_WT.ntvsCPR.xlsx")
+```
+
+
+
+```{r}
+tt_FUR.ntvsCPR <- topTable(fit.main.pec, number=nrow(fit.main.pec), coef="FUR.ntvsCPR", adjust = "fdr")
+head(tt_FUR.ntvsCPR)
+write.xlsx(tt_FUR.ntvsCPR, file = "tt_FUR.ntvsCPR.xlsx")
+```
+
+La primera columna de cada tabla contiene el ID del array de Affymetrix que cada probeset. 
+
+
+
+
+### A7. Anotación de los resultados
+
+Permite asociar los identificadores del apartado anterior con identificadores con nombres familiares, por ejemplo con el Gene Symbol. Creamos una función para facilitar la generación de estas tablas de anotaciones. 
+
+
+```{r}
+annotatedTopTable <- function(topTab, anotPackage)
+{
+ topTab <- cbind(PROBEID=rownames(topTab), topTab)
+ myProbes <- rownames(topTab)
+ thePackage <- eval(parse(text = anotPackage))
+ geneAnots <- select(thePackage, myProbes, c("SYMBOL", "ENTREZID", "GENENAME"))
+ annotatedTopTab<- merge(x=geneAnots, y=topTab, by.x="PROBEID", by.y="PROBEID")
+return(annotatedTopTab)
+}
+```
+
+```{r}
+topAnotados_nt.WTvsFUR <- annotatedTopTable(tt_nt.WTvsFUR, anotPackage = "ecoli2.db")
+topAnotados_WT.ntvsCPR <- annotatedTopTable(tt_WT.ntvsCPR, anotPackage = "ecoli2.db")
+topAnotados_FUR.ntvsCPR <- annotatedTopTable(tt_FUR.ntvsCPR, anotPackage = "ecoli2.db")
+write.csv(topAnotados_WT.ntvsCPR, file="./Resultados/topAnotados_WT.ntvsCPR.csv")
+write.csv(topAnotados_nt.WTvsFUR, file="./Resultados/topAnotados_nt.WTvsFUR.csv")
+write.csv(topAnotados_FUR.ntvsCPR, file="./Resultados/topAnotados_FUR.ntvsCPR.csv")
+```
+
+
+
+### A8. Comparación entre distintas comparaciones
+
+
+
+```{r}
+library(limma)
+res.pec <- decideTests(fit.main.pec, method ="separate", adjust.method = "fdr", p.value = 0.1, lfc = 1)
+```
+
+Tabla de anotaciones sencilla:
+
+```{r}
+sum.res.rows.pec <- apply(abs(res.pec),1,sum)
+res.selected.pec <- res.pec[sum.res.rows.pec!=0,]
+print(summary(res.pec))
+```
+
+
+```{r}
+vennDiagram(res.selected.pec[,1:3], cex = 0.9, circle.col = "deepskyblue4")
+title("Genes in common between the three comparisons \n Genes selected with FDR < 0.1 and logFC > 1", cex.main = 1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+### A9. Visualización de la expresión diferencial con volcano plots
+
+Nos permiten observar si hay muchos o pocos genes con elevado cambio en la expresión y la significación de la expresión. 
+
+```{r}
+library(ecoli2.db)
+geneSymbols <- select(ecoli2.db, rownames(fit.main.pec), c("SYMBOL"))
+SYMBOLS <- geneSymbols$SYMBOL
+volcanoplot(fit.main.pec, coef=1, highlight=4, names=SYMBOLS, main=paste("Genes diferencialmente expresados", colnames(Matcontrast)[1], sep="\n"), hl.col="deepskyblue4", col=c("darkorange"), cex.main = 1, cex.lab = 0.9)
+abline(v=c(-1,1))
+```
+
+
+ 
+```{r}
+volcanoplot(fit.main.pec, coef=2, highlight=4, names=SYMBOLS, main=paste("Genes diferencialmente expresados", colnames(Matcontrast)[2], sep="\n"), hl.col="deepskyblue4", col=c("darkolivegreen"), cex.main = 1, cex.lab = 0.9)
+abline(v=c(-1,1))
+```
+
+
+
+
+```{r}
+volcanoplot(fit.main.pec, coef=3, highlight=4, names=SYMBOLS, main=paste("Differentially expressed genes", colnames(Matcontrast)[3], sep="\n"), hl.col="deepskyblue4", col=c("darkorange4"), cex.main = 1, cex.lab = 0.9)
+abline(v=c(-1,1))
+```
+
+
+
+
+
+
+
+**Heatmaps:**
+```{r}
+probesInHeatmap.pec <- rownames(res.selected.pec)
+DatosHM <- exprs(eset_filtered.pec)[rownames(exprs(eset_filtered.pec)) %in% probesInHeatmap.pec,]
+
+geneSymbols <- select(ecoli2.db, rownames(DatosHM), c("SYMBOL"))
+SYMBOLS<- geneSymbols$SYMBOL
+rownames(DatosHM) <- SYMBOLS
+write.csv(DatosHM, file = file.path("./Resultados/DatosHM.csv"))
+```
+
+
+
+Primero sin dendograma
+```{r}
+my_palette <- colorRampPalette(c("lightcyan", "deepskyblue4"))(n = 299)
+library(gplots)
+
+heatmap.2(DatosHM,
+        Rowv = FALSE,
+        Colv = FALSE,
+        main = "Genes diferencialmente expresados \n FDR<0,1, logFC >=1", 
+        scale = "row",
+        col = my_palette,
+        sepcolor = "white",
+        sepwidth = c(0.05,0.05),
+        cexRow = 0.5,
+        cexCol = 0.9,
+        key = TRUE,
+        keysize = 1.5,
+        density.info = "histogram",
+        ColSideColors = c(rep("springgreen",2),rep("darkgreen",2), rep("salmon",2), rep("darkred",2)),
+        tracecol = NULL,
+        dendrogram = "none",
+        srtCol = 30)
+```
+
+
+Agrupando genes y muestras por su similaridad:
+```{r}
+heatmap.2(DatosHM,
+         Rowv = TRUE,
+         Colv = TRUE,
+         dendrogram = "both",
+         main = "Differentially expressed genes \n FDR < 0,1, logFC >=1", cex.main = 0.8,
+         scale = "row",
+         col = my_palette,
+         sepcolor = "white",
+         sepwidth = c(0.05,0.05),
+         cexRow = 0.5,
+         cexCol = 0.9,
+         key = TRUE,
+         keysize = 1.5,
+         density.info = "histogram",
+         ColSideColors = c(rep("springgreen",2),rep("darkgreen",2), rep("salmon",2), rep("darkred",2)),
+         tracecol = NULL,
+         srtCol = 30)
+```
+
+
+```{r}
+png("heatmap.png")
+heatmap.2(DatosHM,
+         Rowv = TRUE,
+         Colv = TRUE,
+         dendrogram = "both",
+         main = "Differentially expressed genes \n FDR < 0,1, logFC >=1", cex.main = 0.8,
+         scale = "row",
+         col = my_palette,
+         sepcolor = "white",
+         sepwidth = c(0.05,0.05),
+         cexRow = 0.5,
+         cexCol = 0.9,
+         key = TRUE,
+         keysize = 1.5,
+         density.info = "histogram",
+         ColSideColors = c(rep("springgreen",2),rep("darkgreen",2), rep("salmon",2), rep("darkred",2)),
+         tracecol = NULL,
+         srtCol = 30)
+dev.off()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+### A10. Análisis de significación biológica ("Gene enrichment analysis")
+
+
+```{r}
+
+ListaTablas.pec <- list(nt.WTvsFUR  = tt_nt.WTvsFUR, WT.ntvsCPR = tt_WT.ntvsCPR, FUR.ntvsCPR = tt_FUR.ntvsCPR)
+ListaSeleccionados.pec <- list()
+for (i in 1:length(ListaTablas.pec)){
+ # select the toptable
+ topTab <- ListaTablas.pec[[i]]
+ # select the genes to be included in the analysis
+ whichGenes<-topTab["adj.P.Val"]<0.15
+ selectedIDs <- rownames(topTab)[whichGenes]
+ # convert the ID to Entrez
+ EntrezIDs<- select(ecoli2.db, selectedIDs, c("ENTREZID"))
+ EntrezIDs <- EntrezIDs$ENTREZID
+ ListaSeleccionados.pec[[i]] <- EntrezIDs
+ names(ListaSeleccionados.pec)[i] <- names(ListaTablas.pec)[i]
+}
+```
+
+
+```{r}
+sapply(ListaSeleccionados.pec, length)
+```
+
+
+
+
+Como es E. coli no podemos utilizar el package Reactome PA, utilizaremos la función enrichGO del paquete *clusterProfiler*.
+
+
+```{r}
+BiocManager::install("AnnotationDbi")
+BiocManager::install("clusterProfiler")
+```
+
+
+
+```{r}
+library(AnnotationDbi)
+library(clusterProfiler)
+library(igraph)
+ListaDatos.pec <- ListaSeleccionados.pec[1:3]
+comparisonsNames <- names(ListaDatos.pec)
+
+for (i in 1:length(ListaDatos.pec)){
+ genesIn <- ListaDatos.pec[[i]]
+ comparison <- comparisonsNames[i]
+ enrich.result <- enrichGO(gene = genesIn, OrgDb = "org.EcK12.eg.db", ont = "ALL", pAdjustMethod ="BH", pvalueCutoff = 0.05, readable = TRUE)
+ 
+ cat("##################################")
+ cat("\nComparison: ", comparison,"\n")
+ print(head(enrich.result))
+
+ if (length(rownames(enrich.result@result)) != 0) {
+ write.csv(as.data.frame(enrich.result), 
+            file =paste0("./Resultados/","Enrich.Results.",comparison,".csv"), 
+            row.names = FALSE)
+ write.xlsx(as.data.frame(enrich.result), 
+            file =paste0("./Resultados/","Enrich.Results.",comparison,".xlsx"), 
+            row.names = FALSE)
+   
+ pdf(file=paste0("./Resultados/","Enrich.Barplot.",comparison,".pdf"))
+   print(barplot(enrich.result, showCategory = 15, font.size = 6, 
+           title = paste0("EnrichGO Pathway Analysis for ", comparison,". Barplot")))
+ dev.off()
+
+ pdf(file = paste0("./Resultados/","EnrichGOcnetplot.",comparison,".pdf"))
+   print(cnetplot(enrich.result, categorySize = "geneNum", schowCategory = 15, 
+        vertex.label.cex = 0.75))
+ dev.off()
+
+ }
+}
+```
+
+
+
+
+
+
+
+
+```{r}
+cnetplot(enrich.result, categorySize = "geneNum", schowCategory = 15, 
+  vertex.label.cex = 0.75)
+```
+
+
+
+
+
+
+
+
+
+
+
+
